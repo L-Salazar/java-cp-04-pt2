@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Início • Performance Kids</title>
+
+    <!-- Tailwind (dev) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        animation: {
+                            'fade-in': 'fadeIn .5s ease-out both',
+                            'pop': 'pop .35s ease-out both'
+                        },
+                        keyframes: {
+                            fadeIn: { from:{opacity:0, transform:'translateY(6px)'}, to:{opacity:1, transform:'translateY(0)'} },
+                            pop: { from:{transform:'scale(.98)', opacity:.0}, to:{transform:'scale(1)', opacity:1} }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; }
+        body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-fuchsia-50 text-slate-900">
+<header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600"></div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6 py-10 text-white">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                              d="M12 15a3 3 0 100-6 3 3 0 000 6zm8-3a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold leading-tight">Bem-vindo ao Painel</h1>
+                    <p class="text-white/80">Escolha um módulo para começar</p>
+                </div>
+            </div>
+            <a th:href="@{/logout}" class="rounded-xl bg-white/20 px-4 py-2 font-semibold text-white hover:bg-white/30 transition">
+                Sair
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 -mt-8 pb-16">
+    <section class="bg-white shadow-xl shadow-indigo-100 rounded-2xl p-8 md:p-10 animate-pop">
+        <h2 class="text-2xl font-bold mb-8 text-center">Selecione um módulo</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Brinquedos -->
+            <a th:href="@{/go/brinquedos}" class="group block rounded-2xl border border-slate-200 p-6 text-center transition hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-100">
+                <div class="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 flex items-center justify-center text-white shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6m-7 3a9 9 0 1118 0H5z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-800">Brinquedos</h3>
+                <p class="mt-2 text-sm text-slate-500">Gerencie os brinquedos cadastrados no sistema.</p>
+            </a>
+
+            <!-- Categorias -->
+            <a th:href="@{/go/categorias}" class="group block rounded-2xl border border-slate-200 p-6 text-center transition hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-100">
+                <div class="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 flex items-center justify-center text-white shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h10M4 14h16M4 18h10"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-800">Categorias</h3>
+                <p class="mt-2 text-sm text-slate-500">Organize e mantenha as categorias de brinquedos.</p>
+            </a>
+
+            <!-- Funcionários -->
+            <a th:href="@{/go/funcionarios}" class="group block rounded-2xl border border-slate-200 p-6 text-center transition hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-100">
+                <div class="mx-auto mb-4 w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-600 to-fuchsia-600 flex items-center justify-center text-white shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-8 8a6 6 0 0 1 12 0H8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-800">Funcionários</h3>
+                <p class="mt-2 text-sm text-slate-500">Acesso restrito. Apenas administradores podem gerenciar.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer class="text-center text-slate-400 text-sm mt-8">
+        &copy; <span th:text="${#calendars.format(#dates.createNow(), 'yyyy')}">2025</span> Performance Kids.
+    </footer>
+</main>
+</body>
+</html>
