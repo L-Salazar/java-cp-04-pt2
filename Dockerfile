@@ -1,30 +1,32 @@
-# Etapa 1: Build da aplicação
-FROM ubuntu:latest AS build
-
-# Atualiza pacotes e instala o JDK 17 e Maven
-RUN apt-get update && apt-get install -y openjdk-17-jdk maven
-
-# Define o diretório de trabalho
+# ---------- STAGE 1: Build ----------
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copia o arquivo pom.xml e o código fonte
+# Cache de dependências
 COPY pom.xml .
+RUN mvn -q -DskipTests dependency:go-offline
+
+# Código-fonte
 COPY src ./src
 
-# Compila o projeto (sem testes)
-RUN mvn clean install -DskipTests
+# Build (sem testes)
+RUN mvn -q clean package -DskipTests
 
-# Etapa 2: Execução
-FROM openjdk:17-jdk-slim
-
-# Define o diretório de trabalho
+# ---------- STAGE 2: Runtime ----------
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Expõe a porta padrão do Spring Boot
+# (Opcional) timezone PT-BR
+# RUN apk add --no-cache tzdata && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+# A porta exposta é só informativa; o Render usa $PORT
 EXPOSE 8080
 
-# Copia o JAR gerado da etapa de build
-COPY --from=build /app/target/performancekids-0.0.1-SNAPSHOT.jar /app/app.jar
+# Copia o jar gerado (qualquer nome) e renomeia para app.jar
+COPY --from=build /app/target/*.jar /app/app.jar
 
-# Define o comando de inicialização
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Garanta que o Spring suba na porta $PORT do Render
+# Ative perfil se quiser (ex.: prod) e passe envs do Oracle no painel do Render
+ENV JAVA_OPTS="-Dserver.port=${PORT} -Dspring.profiles.active=prod"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
